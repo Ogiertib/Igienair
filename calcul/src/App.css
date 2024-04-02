@@ -1,0 +1,92 @@
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  display: inline;
+  margin-right: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #007bff;
+}
+
+/* Style pour le titre */
+.App-header h2 {
+  margin: 0;
+  padding: 20px;
+  background-color: #007bff; /* Utilisez le code couleur bleu de votre choix */
+  color: #fff; /* Couleur du texte sur le fond bleu */
+}
+
+/* Style pour le conteneur principal */
+.App {
+  text-align: center;
+  
+}
+
+/* Style pour le conteneur de la page */
+.Page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Style pour le menu de navigation */
+nav {
+  background-color: #f8f9fa;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les liens du menu */
+nav ul {
+  display: flex;
+  justify-content: center;
+}
+
+nav li {
+  margin: 0 10px;
+}
+
+nav a {
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #007bff;
+}
+
+button {
+  border-radius: 5px; /* Coins arrondis */
+  background-color: #007bff; /* Couleur de fond */
+  color: #fff; /* Couleur du texte */
+  padding: 10px 20px; /* Espacement interne */
+  border: none; /* Supprimer la bordure */
+  font-size: 16px; /* Taille de la police */
+  font-weight: bold; /* Gras */
+  text-decoration: none; /* Supprimer le soulignement */
+  cursor: pointer; /* Curseur pointeur */
+  transition: background-color 0.3s ease; /* Transition de couleur de fond */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre douce */
+  margin-top: 5px;
+  margin-right: 10px; /* Ajouter de l'espace à droite de chaque bouton */
+  margin-bottom: 0px; /* Ajouter de l'espace en dessous de chaque bouton */
+}
+
+button:hover {
+  background-color: #0056b3; /* Couleur de fond au survol */
+}
