@@ -13,7 +13,7 @@ function ParticleCountPage() {
 
   return (
     <div>
-      <h2>Choix de l'ISO de la salle et valeurs cibles à atteindre</h2>
+      <h2>Valeurs cibles à atteindre</h2>
       <label>Choisissez l'ISO de la salle :</label>
       <select value={iso} onChange={handleIsoChange}>
         <option value="">Sélectionnez une ISO</option>

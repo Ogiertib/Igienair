@@ -9,11 +9,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h2>Igienair</h2>
+        
       <Router>
       <div>
         <nav>
+  
           <ul>
+          <h2>Igienair</h2>
             <li>
               <Link to="/">Calcul de filtre</Link>
             </li>

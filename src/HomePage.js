@@ -65,7 +65,7 @@ function HomePage() {
 
   return (
     <div>
-      <h2>Calculateur ACC</h2>
+      <h2>Calcul de filtre</h2>
       {result  && (
           <p>Valeurs</p>
          )}

@@ -23,12 +23,20 @@ nav a:hover {
 
 /* Style pour le titre */
 .App-header h2 {
-  margin: 0;
-  padding: 20px;
-  background-color: #007bff; /* Utilisez le code couleur bleu de votre choix */
-  color: #fff; /* Couleur du texte sur le fond bleu */
+  margin: 0; /* Supprimer les marges par défaut */
+  font-size: 24px; /* Taille de police */
+  font-weight: bold; /* Gras */
+  text-transform: uppercase; /* Convertir le texte en majuscules */
+  background-color: #007bff; /* Couleur de fond bleu */
+  color: #f9f9f9; /* Couleur du texte blanc */
+  border-radius: 5px; /* Arrondir les bords */
+  padding: 5px;
 }
-
+.App-header {
+  color: #4b4343; /* Couleur du texte blanc */
+  padding: 20px; /* Ajouter un peu d'espacement intérieur */
+  text-align: center; /* Centrer le contenu */
+}
 /* Style pour le conteneur principal */
 .App {
   text-align: center;
@@ -47,6 +55,7 @@ nav {
   background-color: #f8f9fa;
   padding: 10px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 /* Style pour les liens du menu */
