@@ -14,7 +14,7 @@ function AboutPage() {
   const [length2, setLength2] = useState('');
   const [width2, setWidth2] = useState('');
   const [height2, setHeight2] = useState('');
-  const [result, setResult] = useState('');
+  const [resultCube, setResultCube] = useState('');
   const [result2, setResult2] = useState('');
   const [selectedRecIndex, setSelectedRecIndex] = useState(-1);
   const [selectedRecSize, setSelectedRecSize] = useState('');
@@ -83,8 +83,8 @@ function AboutPage() {
     const totalRecSize = Rec.reduce((total, rec) => {
       return total + rec.length2 * rec.width2 * rec.height2;
     }, 0);
-    const result = (totalRoomSize - totalRecSize);
-    setResult(result ? result.toFixed(2) : null);
+    const resultCube = (totalRoomSize - totalRecSize);
+    setResultCube(resultCube ? resultCube.toFixed(2) : null);
   }
 
   const selectRoom = (index) => {
@@ -155,7 +155,7 @@ function AboutPage() {
         ))}
       </ul>
       <button onClick={TotalRoomCube}>Calcule le cubage</button>
-      <h3>Total de la taille des pièces : {result} mètres cubes</h3>
+      <h3>Total de la taille des pièces : {resultCube} mètres cubes</h3>
       <button onClick={TotalSurf}>Calcule la surface</button>
       <h3>Total de la surface au sol: {result2} mètres carré  </h3>
       <p>Il faut faire {roomResult} point de comptage</p>

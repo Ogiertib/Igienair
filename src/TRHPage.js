@@ -2,29 +2,24 @@ import React from 'react';
 import { useState } from 'react';
 
 
-function HomePage() {
-  const [length, setLength] = useState('');
-  const [width, setWidth] = useState('');
-  const [speed, setSpeed] = useState('');
+function TRHPage() {
+ 
   const [sum, setSum] = useState('');
   const [result, setResult] = useState('');
   const [result2, setResult2] = useState('');
   const [numbers, setNumbers] = useState([]);
   const [average, setAverage] = useState('');
   const [inputValue, setInputValue] = useState('');
-
+  const [Cube, setCube] = useState('');
+  const [resultCube, setResultCube] = useState('');
 
   const handleChange = (e) => {
 
     const { name, value } = e.target;
-    if (name === 'length') {
-      setLength(value);
-    } else if (name === 'width') {
-      setWidth(value);
-    } else if (name === 'speed') {
-      setSpeed(value);     
-    } else if (name === 'inputValue') {
+    if (name === 'inputValue') {
       setInputValue(value);
+    } else if (name === 'Cube') {
+      setCube(value);
     }  
   };
 
@@ -39,12 +34,11 @@ function HomePage() {
     const avg = sum / updatedNumbers.length; // Calculer la moyenne
     setAverage(avg.toFixed(2)); // Fixer le nombre de décimales à 2 et mettre à jour le state
     setInputValue(''); // Réinitialiser la valeur de l'entrée
+    const resultCube = sum / Cube; // Calculer le débit par rapport au cubage
+    setResultCube(resultCube ? resultCube.toFixed(1) : null)
     e.preventDefault();
-    const result2 = (parseFloat(length)/1000 * parseFloat(width)/1000);
-    setResult2(result2  ? result2.toFixed(2) : null);
     const result = (( result2 * parseFloat(avg) * 3600 ));
     setResult(result ? result.toFixed(2) : null);
-   
   };
 
   const handleDelete = (index) => {
@@ -68,7 +62,10 @@ function HomePage() {
     <div>
       <h2>Calcul de filtre</h2>
       {result  && (
+        <div>
           <p>Valeurs</p>
+          <button onClick={() => handleReset()}>Reset</button>
+          </div>
          )}
       <ul> 
         {numbers.map((number, index) => (
@@ -76,36 +73,10 @@ function HomePage() {
             <p style={{ fontWeight: 'bold' }}>{number} <button onClick={() => handleDelete(index)}>Supprimer</button></p>
           </li>
         ))}
-           {result && (
-       <button onClick={() => handleReset()}>Reset</button>
-       )}
+           
       
       </ul>
-   
-      
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Longueur (en milimètre):
-            <input
-              type="number"
-              name="length"
-              value={length}
-              onChange={handleChange}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Largeur (en milimètre):
-            <input
-              type="number"
-              name="width"
-              value={width}
-              onChange={handleChange}
-            />
-          </label>
-        </div>
         <div>
           <label>
             Entrez les vitesses d'air séparés par des + :
@@ -117,24 +88,28 @@ function HomePage() {
             />
           </label>
         </div>
+        <div>
+          <label>
+           Cubage de la pièce : 
+            <input
+              type="number"
+              name="Cube"
+              value={Cube}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
         <button type="submit">Calculer</button>
       </form>
-      <div>
-        {result  && (
-          <p>La vitesse d'air est: {result} mètres^3/h</p>
-        )}
-        {result2  && (
-          <p>Le filtre fait : {result2} m2</p>
-        )}
-      </div>
       {average && (
         <div>
           <p>La moyenne est :{average}</p>
           <p>La somme est : {sum}</p>
+          <p>le TRH est de : {resultCube} Vol/h </p>
         </div>
       )}
     </div>
   );
 }
 
-export default HomePage;
+export default TRHPage;

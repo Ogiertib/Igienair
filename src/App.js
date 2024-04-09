@@ -4,6 +4,7 @@ import './App.css';
 import HomePage from './HomePage';
 import AboutPage from './AboutPage';
 import ISOPage from './ISOPage';
+import TRHPage from './TRHPage'
 
 function App() {
   return (
@@ -13,9 +14,8 @@ function App() {
       <Router>
       <div>
         <nav>
-  
           <ul>
-          <h2>Igienair</h2>
+            <h2>Igienair</h2>
             <li>
               <Link to="/">Calcul de filtre</Link>
             </li>
@@ -25,15 +25,17 @@ function App() {
             <li>
               <Link to="/ISO">Valeurs cible </Link>
             </li>
+            <li>
+              <Link to="/TRH">TRH </Link>
+            </li>
           </ul>
         </nav>
 
         <Routes>
           <Route path="/about" element={<AboutPage />}> </Route>
           <Route path="/ISO" element={<ISOPage />}> </Route>
-          <Route path="/" element={<HomePage />}>
-          
-          </Route>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/TRH" element={<TRHPage />}></Route>
         </Routes>
       </div>
     </Router>
