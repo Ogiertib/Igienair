@@ -15,8 +15,9 @@ function App() {
       <Router>
       <div>
         <nav>
+        <h2>Igienair</h2>
           <ul>
-            <h2>Igienair</h2>
+           
             <li>
               <Link to="/">Calcul de filtre</Link>
             </li>
