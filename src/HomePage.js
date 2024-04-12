@@ -67,8 +67,10 @@ function HomePage() {
   return (
     <div>
       <h2>Calcul de filtre</h2>
-      {result  && (
-          <p>Valeurs</p>
+      {sum  && (
+        <div>
+          <button onClick={() => handleReset()}>Reset</button>
+          </div>
          )}
       <ul> 
         {numbers.map((number, index) => (
@@ -76,10 +78,7 @@ function HomePage() {
             <p style={{ fontWeight: 'bold' }}>{number} <button onClick={() => handleDelete(index)}>Supprimer</button></p>
           </li>
         ))}
-           {result && (
-       <button onClick={() => handleReset()}>Reset</button>
-       )}
-      
+           
       </ul>
    
       

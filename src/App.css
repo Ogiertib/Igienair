@@ -99,3 +99,16 @@ button {
 button:hover {
   background-color: #0056b3; /* Couleur de fond au survol */
 }
+
+input  {
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px; /* Ajouter de l'espace à droite de chaque bouton */
+  margin-bottom: 0px; /* Ajouter de l'espace en dessous de chaque bouton */
+}
+select  {
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px; /* Ajouter de l'espace à droite de chaque bouton */
+  margin-bottom: 0px; /* Ajouter de l'espace en dessous de chaque bouton */
+}

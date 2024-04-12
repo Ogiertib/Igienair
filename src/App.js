@@ -5,6 +5,7 @@ import HomePage from './HomePage';
 import AboutPage from './AboutPage';
 import ISOPage from './ISOPage';
 import TRHPage from './TRHPage'
+import SorbonnePage from './SorbonnePage';
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
             <li>
               <Link to="/TRH">TRH </Link>
             </li>
+            <li>
+              <Link to="/Sorbonne">Sorbonne </Link>
+            </li>
           </ul>
         </nav>
 
@@ -36,6 +40,7 @@ function App() {
           <Route path="/ISO" element={<ISOPage />}> </Route>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/TRH" element={<TRHPage />}></Route>
+          <Route path="/Sorbonne" element={<SorbonnePage />}></Route>
         </Routes>
       </div>
     </Router>

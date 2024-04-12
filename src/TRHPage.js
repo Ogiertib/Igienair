@@ -5,8 +5,6 @@ import { useState } from 'react';
 function TRHPage() {
  
   const [sum, setSum] = useState('');
-  const [result, setResult] = useState('');
-  const [result2, setResult2] = useState('');
   const [numbers, setNumbers] = useState([]);
   const [average, setAverage] = useState('');
   const [inputValue, setInputValue] = useState('');
@@ -37,8 +35,6 @@ function TRHPage() {
     const resultCube = sum / Cube; // Calculer le débit par rapport au cubage
     setResultCube(resultCube ? resultCube.toFixed(1) : null)
     e.preventDefault();
-    const result = (( result2 * parseFloat(avg) * 3600 ));
-    setResult(result ? result.toFixed(2) : null);
   };
 
   const handleDelete = (index) => {
@@ -48,20 +44,20 @@ function TRHPage() {
     setSum(sum ? sum.toFixed(2) : null)
     const avg = updatedNumbers.length > 0 ? sum / updatedNumbers.length : null; // Recalculer la moyenne
     setAverage(avg ? avg.toFixed(2) : null); // Fixer le nombre de décimales à 2 et mettre à jour le state de la moyenne
-    const result = updatedNumbers.reduce((acc, curr) => acc + curr, 0); // Recalculer la la vitesse d'air
-    setResult(result ? result.toFixed(2) : null)
+    const resultCube = sum / Cube; // Calculer le débit par rapport au cubage
+    setResultCube(resultCube ? resultCube.toFixed(1) : null)
   };
   const handleReset = () => {
     setNumbers([]);
     setAverage('');
     setSum('');
-    setResult('');
+    setResultCube('')
   };
 
   return (
     <div>
       <h2>Calcul de filtre</h2>
-      {result  && (
+      {resultCube  && (
         <div>
           <p>Valeurs</p>
           <button onClick={() => handleReset()}>Reset</button>
@@ -73,13 +69,12 @@ function TRHPage() {
             <p style={{ fontWeight: 'bold' }}>{number} <button onClick={() => handleDelete(index)}>Supprimer</button></p>
           </li>
         ))}
-           
-      
+
       </ul>
       <form onSubmit={handleSubmit}>
         <div>
           <label>
-            Entrez les vitesses d'air séparés par des + :
+            Entrez les vitesses en m3 séparés par des + :
             <input
               type="text"
               name='inputValue'
