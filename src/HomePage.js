@@ -179,7 +179,7 @@ function HomePage() {
               </li>
               ))}
             </ul>
-            {avgFilter && <div><p>Moyenne des vitesses d'air : {avgFilters} mètres^3/h</p>
+            {sums && <div><p>Moyenne des vitesses d'air : {avgFilters} mètres^3/h</p>
               <p>Somme des vitesses d'air : {sums}</p>
             </div>
             }
