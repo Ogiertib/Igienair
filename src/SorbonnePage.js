@@ -36,8 +36,14 @@ function SorbonnePage() {
         <button type="submit">Calculer</button>
       </form>
       {result && (
-        <p>Il faut faire {result} pts</p>
+       <div> <p>Il faut faire {result} mm</p>
+      </div>
       )}
+       <p> 9 pts entre 0 et 1010</p>
+        <p> 12 pts entre 1010 et 1410 </p>
+        <p> 15 pts entre 1410 et 1810</p>
+        <p> 18 pts entre 1810 et 2210</p>
+        <p> 21 pts entre 2210 et 2610</p>
     </div>
   );
 }
