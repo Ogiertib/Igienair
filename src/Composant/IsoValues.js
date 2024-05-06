@@ -1,6 +1,7 @@
 const IsoValues = {
     ISO5: {
       zone: 4,
+      norme: ' NFS 90-351' ,
       particule1: "832 1um",  
       particule2: "3 520 0.5um", 
       particule3: "10 200 0.3um",
@@ -12,6 +13,7 @@ const IsoValues = {
     },
     ISO7: {
       zone: 3,
+      norme: 'NFS 90-351' ,
       particule1: "2 930 5um",  
       particule2: "83 200 1um", 
       particule3: "352 000 0.5um",
@@ -23,6 +25,7 @@ const IsoValues = {
     },
     ISO8: {
       zone: 2,
+      norme: 'NFS 90-351' ,
       particule1: "29 300 5um",  
       particule2: "832 000 1um", 
       particule3: "3 520 000 0.5um",
@@ -34,11 +37,12 @@ const IsoValues = {
     },
     BPPH: {
       zone: 2,
+      norme: 'BBPH + NFS 90-351' ,
       particule1: "29 300 5um",  
       particule2: "832 000 1um", 
       particule3: "3 520 000 0.5um",
-      pressure: "Surpression client",
-      TRH: "10",
+      pressure: "Surpression",
+      TRH: "10-20",
       flux: "N/A",
       kinetics: 20,
       biocontamination: "50 surfaces air: 200 ufc  en activité ",
@@ -88,6 +92,7 @@ const IsoValues = {
     kinetics: "N/A",
     biocontamination: "surfaces: 50 air: 200 ufc",
   },
+
   // Ajoutez d'autres niveaux d'ISO avec leurs valeurs cibles
 };
   

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 function HomePage() {
   const [length, setLength] = useState('');
   const [width, setWidth] = useState('');
@@ -88,7 +89,7 @@ function HomePage() {
     setAvgFilters('')
     setAvgFilter('')
   };
- 
+
   const handleReset = () => {
     setNumbers([]);
     setAverage('');
@@ -183,7 +184,7 @@ function HomePage() {
               <p>Somme des vitesses d'air : {sums}</p>
             </div>
             }
-          </div>
+          </div>  
         </div>
       )}
     </div>

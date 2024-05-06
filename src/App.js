@@ -6,6 +6,7 @@ import AboutPage from './AboutPage';
 import ISOPage from './ISOPage';
 import TRHPage from './TRHPage'
 import SorbonnePage from './SorbonnePage';
+import AideMemoPage from './AideMemoPage';
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
             <li>
               <Link to="/Sorbonne">Sorbonne </Link>
             </li>
+            <li>
+              <Link to="/AideMemo">Aide Mémo </Link>
+            </li>
           </ul>
         </nav>
 
@@ -42,6 +46,7 @@ function App() {
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/TRH" element={<TRHPage />}></Route>
           <Route path="/Sorbonne" element={<SorbonnePage />}></Route>
+          <Route path="/AideMemo" element={<AideMemoPage />}></Route>
         </Routes>
       </div>
     </Router>

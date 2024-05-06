@@ -17,10 +17,10 @@ function ParticleCountPage() {
       <label>Choisissez l'ISO de la salle :</label>
       <select value={iso} onChange={handleIsoChange}>
         <option value="">Sélectionnez une ISO</option>
-        <option value="ISO5">ISO 5</option>
-        <option value="ISO7">ISO 7</option>
-        <option value="ISO8">ISO 8</option>
-        <option value="BPPH">BPPH stérilisation</option>
+        <option value="ISO5">ISO 5 NFS 90-351</option>
+        <option value="ISO7">ISO 7 NFS 90-351</option>
+        <option value="ISO8">ISO 8 NFS 90-351</option>
+        <option value="BPPH">BPPH stérilisation classe D</option>
         <option value="BPFA">BPF classe A</option>
         <option value="BPFB">BPF classe B</option>
         <option value="BPFC">BPF classe C</option>
