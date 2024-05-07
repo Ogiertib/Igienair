@@ -47,6 +47,7 @@ function AideMemo() {
           <option value="PSM">PSM</option>
           <option value="Etraf">Etraf</option>
           <option value="Micro">Micro electronique</option>
+          <option value="URCC">URCC</option>
           {/* Ajoutez d'autres options selon vos besoins */}
         </select>
        
