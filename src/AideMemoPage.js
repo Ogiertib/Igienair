@@ -28,7 +28,6 @@ function AideMemo() {
       <button onClick={toggleText2}>{showText2 ? 'Cacher le texte' : 'Pts par filtre'}</button>
       {showText2 && (
         <div>
-          <img src="../public/PtsFiltre" alt="logo512.png" />
           <p>Nbr de point par filtre = √(10x surface du filtre)</p>
           <p>Pour les filtre isolés = 4 pts par filtres minimum</p>
           <p>Pour les plafonds de 2 à 7 filtres = 2pts par filtre</p>
