@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import NormeValue from './Composant/NormeValue';
 
 function AideMemo() {
   const [showText, setShowText] = useState(false);
   const [showText2, setShowText2] = useState(false);
   const [showText3, setShowText3] = useState(false);
+  const [Norme, setNorme] = useState('');
+  const [valuesToShow, setValuesToShow] = useState(null);
 
   const toggleText = () => {
     setShowText(!showText);
@@ -13,6 +16,11 @@ function AideMemo() {
   };
   const toggleText3 = () => {
     setShowText3(!showText3);
+  };
+  const handleNormeChange = (event) => {
+    const selectedNorme = event.target.value;
+    setNorme(selectedNorme);
+    setValuesToShow(NormeValue[selectedNorme]);
   };
   return (
     <div>
@@ -31,15 +39,27 @@ function AideMemo() {
       <button onClick={toggleText}>{showText ? 'Cacher le texte' : 'Norme'}</button>
       {showText && (
         <div>
-          <p>Norme hospitalière :  Les résultats des essais sont conformes aux spécifications des normes NF EN ISO 14-644-1 / -3 et NFS 90-351 (2013).</p>
-          <p>Sorbonne routine : Les résultats des essais de routine réalisés sur les sorbonnes répondent aux recommandations du guide INRS ED795. </p>
-          <p>Sorbonne réception : Les résultats des essais de réception réalisés sur la sorbonne répondent aux recommandations des normes NFX 15-206 et NF EN 14-175.</p>
-          <p>PSM :BPP, ISO EN 12469 Critere de performance des PSM,  NF EN 1822-1 pour les filtre HEPA </p>
-          <p>Micro éléctronique : Les résultats des essais sont conformes aux spécifications des normes NF EN ISO 14-644</p>
-          <p></p>
+        <label>Choisissez le type  :</label>
+        <select value={Norme} onChange={handleNormeChange}>
+          <option value="">Sélectionnez le type</option>
+          <option value="Hospitalier">Hospitalier</option>
+          <option value="Sorbonne1">Sorbonne Routine</option>
+          <option value="Sorbonne2">Sorbonne Reception</option>
+          <option value="PSM">PSM</option>
+          <option value="Etraf">Etraf</option>
+          <option value="Micro">Micro electronique</option>
+          {/* Ajoutez d'autres options selon vos besoins */}
+        </select>
+       
+        {valuesToShow && (
+          <div>
+            <h3>{Norme} </h3>
+            <p>{valuesToShow.text}</p>
+        </div>
+        )}
         </div>
       )}
-        <button onClick={toggleText3}>{showText3 ? 'Cacher le texte' : 'PSM'}</button>
+      <button onClick={toggleText3}>{showText3 ? 'Cacher le texte' : 'PSM'}</button>
       {showText3 && (
         <div>
           <p>Le débit d'extraction au minimum 30% de celui du soufflage</p>
@@ -51,7 +71,7 @@ function AideMemo() {
         </div>
       )}
     </div>
-  );
-}
+    
 
+)}
 export default AideMemo;
