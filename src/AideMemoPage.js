@@ -38,7 +38,7 @@ function AideMemo() {
       <button onClick={toggleText}>{showText ? 'Cacher le texte' : 'Norme'}</button>
       {showText && (
         <div>
-        <label>Choisissez le type  :</label>
+        <label>Choisissez le type d'equipement/salle  :</label>
         <select value={Norme} onChange={handleNormeChange}>
           <option value="">Sélectionnez le type</option>
           <option value="Hospitalier">Hospitalier</option>
