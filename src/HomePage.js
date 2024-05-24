@@ -216,6 +216,7 @@ function HomePage() {
             {sums && (
               <div>
                 <p>Moyenne des vitesses d'air : {avgFilters} m/s</p>
+                <p>Laminarité doit etre comprise entre {(avgFilters * 0.8).toFixed(2)} et {(avgFilters * 1.2).toFixed(2)}</p>
                 <p>Somme des vitesses d'air : {sums} m³/h</p>
               </div>
             )}
