@@ -25,6 +25,17 @@ function AideMemo() {
   return (
     <div>
       <h2>Aide mémoire</h2>
+      <button onClick={toggleText3}>{showText3 ? 'Cacher le texte' : 'PSM'}</button>
+      {showText3 && (
+        <div>
+          <p>Le débit d'extraction au minimum 30% de celui du soufflage</p>
+          <p>Vitesse d'air entrant doit etre superieur a 0.40m/s</p>
+          <p>PSM type II Vitesse d'air descendant de 0.35 a 0.55m/s</p>
+          <p>PSM type I Vitesse d'air descendant de 0.7 a 1m/s</p>
+          <p>Niveau sonore de 65 dB</p>
+          <p>classe iso 5 sous flux</p>
+        </div>
+      )}
       <button onClick={toggleText2}>{showText2 ? 'Cacher le texte' : 'Pts par filtre'}</button>
       {showText2 && (
         <div>
@@ -58,20 +69,7 @@ function AideMemo() {
         </div>
         )}
         </div>
-      )}
-      <button onClick={toggleText3}>{showText3 ? 'Cacher le texte' : 'PSM'}</button>
-      {showText3 && (
-        <div>
-          <p>Le débit d'extraction au minimum 30% de celui du soufflage</p>
-          <p>Vitesse d'air entrant doit etre superieur a 0.40m/s</p>
-          <p>PSM type II Vitesse d'air descendant de 0.35 a 0.55m/s</p>
-          <p>PSM type I Vitesse d'air descendant de 0.7 a 1m/s</p>
-          <p>Niveau sonore de 65 dB</p>
-          <p>classe iso 5 sous flux</p>
-        </div>
-      )}
+      )}  
     </div>
-    
-
 )}
 export default AideMemo;

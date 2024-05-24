@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 
-
 function HomePage() {
   const [length, setLength] = useState('');
   const [width, setWidth] = useState('');
-  const [speed, setSpeed] = useState('');
-  const [sum, setSum] = useState('');
-  const [sums, setSums] = useState([]);
-  const [resultFilter, setResultFilter] = useState([]);
-  const [result, setResult] = useState('');
-  const [results, setResults] = useState([]);
-  const [result2, setResult2] = useState('');
-  const [numbers, setNumbers] = useState([]);
-  const [average, setAverage] = useState('');
-  const [avgFilter, setAvgFilter] = useState([]); //  stocker les moyennes des filtres
-  const [avgFilters, setAvgFilters] = useState([]); 
   const [inputValue, setInputValue] = useState('');
+  const [sum, setSum] = useState(null);
+  const [sums, setSums] = useState(null);
+  const [resultFilter, setResultFilter] = useState([]);
+  const [result, setResult] = useState(null);
+  const [results, setResults] = useState([]);
+  const [result2, setResult2] = useState(null);
+  const [numbers, setNumbers] = useState([]);
+  const [average, setAverage] = useState(null);
+  const [avgFilter, setAvgFilter] = useState([]);
+  const [avgFilters, setAvgFilters] = useState(null);
+  const [numbersWithRange, setNumbersWithRange] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,8 +22,6 @@ function HomePage() {
       setLength(value);
     } else if (name === 'width') {
       setWidth(value);
-    } else if (name === 'speed') {
-      setSpeed(value);
     } else if (name === 'inputValue') {
       setInputValue(value);
     }
@@ -33,68 +30,99 @@ function HomePage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newNumbers = inputValue.split('+').map(Number);
-    const validNumbers = newNumbers.filter(num => num !== 0);
+    const validNumbers = newNumbers.filter(num => !isNaN(num) && num !== 0);
     const updatedNumbers = [...numbers, ...validNumbers];
     setNumbers(updatedNumbers);
+
     const sum = updatedNumbers.reduce((acc, curr) => acc + curr, 0);
-    setSum(sum ? sum.toFixed(2) : null);
     const avg = sum / updatedNumbers.length;
+    const result2 = (parseFloat(length) / 1000 * parseFloat(width) / 1000);
+    const result = result2 * avg * 3600;
+
+    const lowerBound = avg * 0.8;
+    const upperBound = avg * 1.2;
+    const updatedNumbersWithRange = updatedNumbers.map(num => ({
+      number: num,
+      message: (num < lowerBound || num > upperBound) ? `La laminarité n'est pas bonne pour ${num}` : ''
+    }));
+
+    setSum(sum.toFixed(2));
     setAverage(avg.toFixed(2));
     setInputValue('');
-    const result2 = (parseFloat(length) / 1000 * parseFloat(width) / 1000);
-    setResult2(result2 ? result2.toFixed(2) : null);
-    const result = ((result2 * parseFloat(avg) * 3600));
-    setResult(result ? result.toFixed(2) : null);
+    setResult2(result2.toFixed(2));
+    setResult(result.toFixed(2));
+    setNumbersWithRange(updatedNumbersWithRange);
   };
 
   const handleDelete = (index) => {
     const updatedNumbers = numbers.filter((_, i) => i !== index);
     setNumbers(updatedNumbers);
+
     const sum = updatedNumbers.reduce((acc, curr) => acc + curr, 0);
+    const avg = updatedNumbers.length > 0 ? sum / updatedNumbers.length : 0;
     setSum(sum ? sum.toFixed(2) : null);
-    const avg = updatedNumbers.length > 0 ? sum / updatedNumbers.length : null;
     setAverage(avg ? avg.toFixed(2) : null);
-    const result = updatedNumbers.reduce((acc, curr) => acc + curr, 0);
+    const result = avg * 3600 * (parseFloat(length) / 1000) * (parseFloat(width) / 1000);
     setResult(result ? result.toFixed(2) : null);
+
+    const lowerBound = avg * 0.8;
+    const upperBound = avg * 1.2;
+    const updatedNumbersWithRange = updatedNumbers.map(num => ({
+      number: num,
+      message: (num < lowerBound || num > upperBound) ? `La laminarité n'est pas bonne pour ${num}` : ''
+    }));
+    setNumbersWithRange(updatedNumbersWithRange);
   };
 
   const handleDeleteFilter = (index) => {
-    const updatedResults = [...results];
-    updatedResults.splice(index, 1);
+    const updatedResults = results.filter((_, i) => i !== index);
     setResults(updatedResults);
-    const updatedAvgFilter = [...avgFilter];
-    updatedAvgFilter.splice(index, 1); // Supprimer la moyenne associée au filtre
+
+    const updatedAvgFilter = avgFilter.filter((_, i) => i !== index);
     setAvgFilter(updatedAvgFilter);
+
     const updatedSums = updatedResults.reduce((acc, curr) => acc + curr, 0);
     setSums(updatedSums ? updatedSums.toFixed(2) : null);
-    setResultFilter([]);
-    
+
+    if (updatedAvgFilter.length > 0) {
+      const updatedAvgFilters = updatedAvgFilter.reduce((acc, curr) => acc + curr, 0) / updatedAvgFilter.length;
+      setAvgFilters(updatedAvgFilters.toFixed(2));
+    } else {
+      setAvgFilters(null);
+    }
   };
 
   const calculateFilter = () => {
-    const updatedResults = [...results, parseFloat(result)];
-    setResults(updatedResults);
-    const updatedSums = updatedResults.reduce((acc, curr) => acc + curr, 0);
-    setSums(updatedSums ? updatedSums.toFixed(2) : null);
-    const updatedAvgFilter = [...avgFilter, parseFloat(average)]; // Ajouter la moyenne du filtre
-    const updatedAvgFilters = updatedAvgFilter.reduce((acc, curr) => acc + curr, 0) / updatedAvgFilter.length;
-    setAvgFilters(updatedAvgFilters); // Calculer et mettre à jour la moyenne des vitesses des filtres
-    setAvgFilter(updatedAvgFilter);
-    setResultFilter([]);
+    if (result) {
+      const updatedResults = [...results, parseFloat(result)];
+      setResults(updatedResults);
+
+      const updatedSums = updatedResults.reduce((acc, curr) => acc + curr, 0);
+      setSums(updatedSums.toFixed(2));
+
+      const updatedAvgFilter = [...avgFilter, parseFloat(average)];
+      setAvgFilter(updatedAvgFilter);
+
+      const updatedAvgFilters = updatedAvgFilter.reduce((acc, curr) => acc + curr, 0) / updatedAvgFilter.length;
+      setAvgFilters(updatedAvgFilters.toFixed(2));
+    }
   };
+
   const DeleteFilter = () => {
-    setResult('');
-    setResults([])
-    setSums('')
-    setAvgFilters('')
-    setAvgFilter('')
+    setResults([]);
+    setSums(null);
+    setAvgFilters(null);
+    setAvgFilter([]);
   };
 
   const handleReset = () => {
     setNumbers([]);
-    setAverage('');
-    setSum('');
-    setResult('');
+    setAverage(null);
+    setSum(null);
+    setResult(null);
+    setResult2(null);
+    setInputValue('');
+    setNumbersWithRange([]);
   };
 
   return (
@@ -106,9 +134,13 @@ function HomePage() {
         </div>
       )}
       <ul>
-        {numbers.map((number, index) => (
+        {numbersWithRange.map((item, index) => (
           <li key={index}>
-            <p style={{ fontWeight: 'bold' }}>{number} <button onClick={() => handleDelete(index)}>Supprimer</button></p>
+            <p style={{ fontWeight: 'bold' }}>
+              {item.number}
+              <button onClick={() => handleDelete(index)}>Supprimer</button>
+            </p>
+            {item.message && <p style={{ color: 'red' }}>{item.message}</p>}
           </li>
         ))}
       </ul>
@@ -141,7 +173,7 @@ function HomePage() {
             Entrez les vitesses d'air séparées par des + :
             <input
               type="text"
-              name='inputValue'
+              name="inputValue"
               value={inputValue}
               onChange={handleChange}
             />
@@ -160,7 +192,8 @@ function HomePage() {
       {average && (
         <div>
           <div>
-            <p>La moyenne est :{average}</p>
+            <p>La moyenne est : {average}</p>
+            <p>Laminarité doit etre comprise entre {(average * 0.8).toFixed(2)} et {(average * 1.2).toFixed(2)}</p>
             <p>La somme est : {sum}</p>
           </div>
           <div>
@@ -168,22 +201,24 @@ function HomePage() {
             {sums && <button onClick={DeleteFilter}>Reset des filtres</button>}
             <ul>
               {results.map((resultFilter, index) => (
-              <li key={index}>
-                <p style={{ fontWeight: 'bold' }}>
-                  Filtre {index + 1} : {resultFilter} mètres^3/h
-                  {' '}
-                  <span style={{ fontStyle: 'italic' }}>
+                <li key={index}>
+                  <p style={{ fontWeight: 'bold' }}>
+                    Filtre {index + 1} : {resultFilter} mètres^3/h
+                    {' '}
+                    <span style={{ fontStyle: 'italic' }}>
                       (Vitesse moyenne : {avgFilter[index]} m/s)
-                  </span>
-                  <button onClick={() => handleDeleteFilter(index)}>Supprimer</button>
-                </p>
-              </li>
+                    </span>
+                    <button onClick={() => handleDeleteFilter(index)}>Supprimer</button>
+                  </p>
+                </li>
               ))}
             </ul>
-            {sums && <div><p>Moyenne des vitesses d'air : {avgFilters} mètres^3/h</p>
-              <p>Somme des vitesses d'air : {sums}</p>
-            </div>
-            }
+            {sums && (
+              <div>
+                <p>Moyenne des vitesses d'air : {avgFilters} m/s</p>
+                <p>Somme des vitesses d'air : {sums} m³/h</p>
+              </div>
+            )}
           </div>  
         </div>
       )}
