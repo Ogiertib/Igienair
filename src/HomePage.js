@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import './HomePage.css';
 
 function HomePage() {
   const [length, setLength] = useState('');
   const [width, setWidth] = useState('');
+  const [diameter, setDiameter] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [sum, setSum] = useState(null);
   const [sums, setSums] = useState(null);
-  const [resultFilter, setResultFilter] = useState([]);
   const [result, setResult] = useState(null);
   const [results, setResults] = useState([]);
   const [result2, setResult2] = useState(null);
@@ -22,6 +23,8 @@ function HomePage() {
       setLength(value);
     } else if (name === 'width') {
       setWidth(value);
+    } else if (name === 'diameter') {
+      setDiameter(value);
     } else if (name === 'inputValue') {
       setInputValue(value);
     }
@@ -36,7 +39,15 @@ function HomePage() {
 
     const sum = updatedNumbers.reduce((acc, curr) => acc + curr, 0);
     const avg = sum / updatedNumbers.length;
-    const result2 = (parseFloat(length) / 1000 * parseFloat(width) / 1000);
+
+    let result2;
+    if (diameter) {
+      const radius = parseFloat(diameter) / 2000;
+      result2 = Math.PI * Math.pow(radius, 2);
+    } else {
+      result2 = (parseFloat(length) / 1000) * (parseFloat(width) / 1000);
+    }
+
     const result = result2 * avg * 3600;
 
     const lowerBound = avg * 0.8;
@@ -62,7 +73,16 @@ function HomePage() {
     const avg = updatedNumbers.length > 0 ? sum / updatedNumbers.length : 0;
     setSum(sum ? sum.toFixed(2) : null);
     setAverage(avg ? avg.toFixed(2) : null);
-    const result = avg * 3600 * (parseFloat(length) / 1000) * (parseFloat(width) / 1000);
+
+    let result2;
+    if (diameter) {
+      const radius = parseFloat(diameter) / 2000;
+      result2 = Math.PI * Math.pow(radius, 2);
+    } else {
+      result2 = (parseFloat(length) / 1000) * (parseFloat(width) / 1000);
+    }
+
+    const result = avg * 3600 * result2;
     setResult(result ? result.toFixed(2) : null);
 
     const lowerBound = avg * 0.8;
@@ -122,11 +142,12 @@ function HomePage() {
     setResult(null);
     setResult2(null);
     setInputValue('');
+    setDiameter('');
     setNumbersWithRange([]);
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Calcul de filtre</h2>
       {sum && (
         <div>
@@ -146,27 +167,49 @@ function HomePage() {
       </ul>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Longueur (en millimètre):
-            <input
-              type="number"
-              name="length"
-              value={length}
-              onChange={handleChange}
-            />
-          </label>
+        <div className="input-group">
+          <div className="input-label">
+            <p>Si Filtre carré ou rectangle</p>
+          </div>
+          <div className="input-fields">
+            <label>
+              Longueur (en millimètre):
+              <input
+                type="number"
+                name="length"
+                value={length}
+                onChange={handleChange}
+                disabled={diameter} // Désactiver si diamètre est renseigné
+              />
+            </label>
+            <label>
+              Largeur (en millimètre):
+              <input
+                type="number"
+                name="width"
+                value={width}
+                onChange={handleChange}
+                disabled={diameter} // Désactiver si diamètre est renseigné
+              />
+            </label>
+          </div>
         </div>
-        <div>
-          <label>
-            Largeur (en millimètre):
-            <input
-              type="number"
-              name="width"
-              value={width}
-              onChange={handleChange}
-            />
-          </label>
+        <div className="input-group">
+          <div className="input-label">
+            <p>Si Filtre rond</p>
+          </div>
+          <div className="input-fields">
+            <label>
+              Diamètre (en millimètre):
+              <input
+                type="number"
+                name="diameter"
+                value={diameter}
+                onChange={handleChange}
+                disabled={length || width} // Désactiver si longueur ou largeur est renseigné
+              />
+            </label>
+          </div>
         </div>
         <div>
           <label>
@@ -186,41 +229,31 @@ function HomePage() {
           <p>La vitesse d'air est: {result} mètres^3/h</p>
         )}
         {result2 && (
-          <p>Le filtre fait : {result2} m2</p>
+          <p>Le filtre fait : {result2} m²</p>
         )}
       </div>
       {average && (
         <div>
           <div>
             <p>La moyenne est : {average}</p>
-            <p>Laminarité doit etre comprise entre {(average * 0.8).toFixed(2)} et {(average * 1.2).toFixed(2)}</p>
+            <p>Laminarité doit être comprise entre {(average * 0.8).toFixed(2)} et {(average * 1.2).toFixed(2)}</p>
             <p>La somme est : {sum}</p>
           </div>
           <div>
             <button onClick={calculateFilter}>Enregistrer le filtre</button>
             {sums && <button onClick={DeleteFilter}>Reset des filtres</button>}
             <ul>
-              {results.map((resultFilter, index) => (
+              {results.map((item, index) => (
                 <li key={index}>
-                  <p style={{ fontWeight: 'bold' }}>
-                    Filtre {index + 1} : {resultFilter} mètres^3/h
-                    {' '}
-                    <span style={{ fontStyle: 'italic' }}>
-                      (Vitesse moyenne : {avgFilter[index]} m/s)
-                    </span>
+                  <p>{item}
                     <button onClick={() => handleDeleteFilter(index)}>Supprimer</button>
                   </p>
                 </li>
               ))}
             </ul>
-            {sums && (
-              <div>
-                <p>Moyenne des vitesses d'air : {avgFilters} m/s</p>
-                <p>Laminarité doit etre comprise entre {(avgFilters * 0.8).toFixed(2)} et {(avgFilters * 1.2).toFixed(2)}</p>
-                <p>Somme des vitesses d'air : {sums} m³/h</p>
-              </div>
-            )}
-          </div>  
+            {sums && <p>La somme des filtres est : {sums}</p>}
+            {avgFilters && <p>La moyenne des filtres est : {avgFilters}</p>}
+          </div>
         </div>
       )}
     </div>
