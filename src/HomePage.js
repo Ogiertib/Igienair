@@ -160,28 +160,29 @@ function HomePage() {
           <button onClick={handleReset}>Reset</button>
         </div>
       )}
-      <table className="numbers-table">
-        <thead>
-          <tr>
-            <th>Point n°</th>
-            <th>Valeur</th>
-            
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {numbersWithRange.map((item, index) => (
-            <tr key={index} className="number-item">
-              <td>{index + 1}</td>
-              <td>{item.number}</td>
-              <td>
-                <button onClick={() => handleDelete(index)} className="delete-button">Supprimer</button>
-              </td>
+        {sum && (
+        <table className="numbers-table">
+          <thead>
+            <tr>
+              <th>Point n°</th>
+              <th>Valeur</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
+          </thead>
+        
+          <tbody>
+            {numbersWithRange.map((item, index) => (
+              <tr key={index} className="number-item">
+                <td>{index + 1}</td>
+                <td>{item.number}</td>
+                <td>
+                  <button onClick={() => handleDelete(index)} className="delete-button">Supprimer</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
       <form onSubmit={handleSubmit} className="input-form">
         <div className="input-group">
           <div className="input-label">
