@@ -95,11 +95,16 @@ function HomePage() {
   };
 
   const handleDeleteFilter = (index) => {
-    const updatedResults = results.filter((_, i) => i !== index);
+    const updatedResults = [...results];
+    updatedResults.splice(index, 1);
     setResults(updatedResults);
 
-    const updatedAvgFilter = avgFilter.filter((_, i) => i !== index);
+    const updatedAvgFilter = [...avgFilter];
+    updatedAvgFilter.splice(index, 1);
     setAvgFilter(updatedAvgFilter);
+
+    const updatedAvgFilters = updatedAvgFilter.reduce((acc, curr) => acc + curr, 0) / updatedAvgFilter.length;
+    setAvgFilters(updatedAvgFilters.toFixed(2));
 
     const updatedSums = updatedResults.reduce((acc, curr) => acc + curr, 0);
     setSums(updatedSums ? updatedSums.toFixed(2) : null);
@@ -146,27 +151,38 @@ function HomePage() {
     setNumbersWithRange([]);
   };
 
+
   return (
     <div className="container">
       <h2>Calcul de filtre</h2>
       {sum && (
-        <div>
+        <div className="button-group">
           <button onClick={handleReset}>Reset</button>
         </div>
       )}
-      <ul>
-        {numbersWithRange.map((item, index) => (
-          <li key={index}>
-            <p style={{ fontWeight: 'bold' }}>
-              {item.number}
-              <button onClick={() => handleDelete(index)}>Supprimer</button>
-            </p>
-            {item.message && <p style={{ color: 'red' }}>{item.message}</p>}
-          </li>
-        ))}
-      </ul>
+      <table className="numbers-table">
+        <thead>
+          <tr>
+            <th>Point n°</th>
+            <th>Valeur</th>
+            
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {numbersWithRange.map((item, index) => (
+            <tr key={index} className="number-item">
+              <td>{index + 1}</td>
+              <td>{item.number}</td>
+              <td>
+                <button onClick={() => handleDelete(index)} className="delete-button">Supprimer</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="input-form">
         <div className="input-group">
           <div className="input-label">
             <p>Si Filtre carré ou rectangle</p>
@@ -179,7 +195,7 @@ function HomePage() {
                 name="length"
                 value={length}
                 onChange={handleChange}
-                disabled={diameter} // Désactiver si diamètre est renseigné
+                disabled={diameter}
               />
             </label>
             <label>
@@ -189,7 +205,7 @@ function HomePage() {
                 name="width"
                 value={width}
                 onChange={handleChange}
-                disabled={diameter} // Désactiver si diamètre est renseigné
+                disabled={diameter}
               />
             </label>
           </div>
@@ -206,54 +222,76 @@ function HomePage() {
                 name="diameter"
                 value={diameter}
                 onChange={handleChange}
-                disabled={length || width} // Désactiver si longueur ou largeur est renseigné
+                disabled={length || width}
               />
             </label>
           </div>
         </div>
-        <div>
-          <label>
-            Entrez les vitesses d'air séparées par des + :
-            <input
-              type="text"
-              name="inputValue"
-              value={inputValue}
-              onChange={handleChange}
-            />
-          </label>
+        <div className="input-group">
+          <div className="input-label">
+            <p>Vitesse d'air</p>
+          </div>
+          <div className="input-fields">
+            <label>
+              Entrez les vitesses d'air séparées par des + :
+              <input
+                type="text"
+                name="inputValue"
+                value={inputValue}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
         </div>
-        <button type="submit">Calculer</button>
+        <button type="submit" className="calculate-button">Calculer</button>
       </form>
-      <div>
+      <div className="result-section">
         {result && (
           <p>La vitesse d'air est: {result} mètres^3/h</p>
         )}
         {result2 && (
-          <p>Le filtre fait : {result2} m²</p>
-        )}
-      </div>
-      {average && (
-        <div>
           <div>
+            <p>Le filtre fait : {result2} m²</p>
             <p>La moyenne est : {average}</p>
             <p>Laminarité doit être comprise entre {(average * 0.8).toFixed(2)} et {(average * 1.2).toFixed(2)}</p>
-            <p>La somme est : {sum}</p>
           </div>
+        )}
+           
+      </div>
+      {average && (
+        <div className="average-section">
           <div>
-            <button onClick={calculateFilter}>Enregistrer le filtre</button>
-            {sums && <button onClick={DeleteFilter}>Reset des filtres</button>}
-            <ul>
-              {results.map((item, index) => (
-                <li key={index}>
-                  <p>{item}
-                    <button onClick={() => handleDeleteFilter(index)}>Supprimer</button>
-                  </p>
-                </li>
-              ))}
-            </ul>
-            {sums && <p>La somme des filtres est : {sums}</p>}
-            {avgFilters && <p>La moyenne des filtres est : {avgFilters}</p>}
+            <p>La moyenne est : {avgFilters}</p>
+            <p>Laminarité doit être comprise entre {(avgFilters * 0.8).toFixed(2)} et {(avgFilters * 1.2).toFixed(2)}</p>
+            <p>Somme des vitesses d'air : {sums} m³/h</p>
           </div>
+          <div className="button-group">
+            <button onClick={calculateFilter} className="save-button">Enregistrer le filtre</button>
+            {sums && <button onClick={DeleteFilter} className="reset-filters-button">Reset des filtres</button>}
+            <table className="results-table">
+              <thead>
+                <tr>
+                  <th>Filtre</th>
+                  <th>Vitesse</th>
+                  <th>Moyenne</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results.map((resultFilter, index) => (
+                  <tr key={index} className="result-item">
+                    <td>Filtre {index + 1}</td>
+                    <td>{resultFilter} mètres^3/h</td>
+                    <td className="average-value">{avgFilter[index]} m/s</td>
+                    <td>
+                      <button onClick={() => handleDeleteFilter(index)} className="delete-button">Supprimer</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+         
+          </div>  
         </div>
       )}
     </div>
@@ -261,3 +299,4 @@ function HomePage() {
 }
 
 export default HomePage;
+
