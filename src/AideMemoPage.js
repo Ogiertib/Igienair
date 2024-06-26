@@ -30,10 +30,12 @@ function AideMemo() {
         <div>
           <p>Le débit d'extraction au minimum 30% de celui du soufflage</p>
           <p>Vitesse d'air entrant doit etre superieur a 0.40m/s</p>
-          <p>PSM type II Vitesse d'air descendant de 0.35 a 0.55m/s</p>
+          <p>PSM type II Vitesse d'air descendant de 0.36 a 0.54m/s en BP à 15cm du filtre classe A</p>
+          <p>En NF 12-469 vitesse d'air 0.25 a 0.50 a 10 cm au dessus de la vitre ISO 5</p>
           <p>PSM type I Vitesse d'air descendant de 0.7 a 1m/s</p>
           <p>Niveau sonore de 65 dB</p>
           <p>classe iso 5 sous flux</p>
+          <p>Faster alumage 5 haut 4 bas set, alarme status 3 bas 3 haut set</p>
         </div>
       )}
       <button onClick={toggleText2}>{showText2 ? 'Cacher le texte' : 'Pts par filtre'}</button>
