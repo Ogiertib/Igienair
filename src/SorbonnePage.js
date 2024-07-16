@@ -39,7 +39,8 @@ function SorbonnePage() {
        <div> <p>Il faut faire {result} pts pour le SF6 </p>
       </div>
       )}
-        <p> 9 pts entre 0 et 1010</p>
+        <p> 6 pts entre 610</p>
+        <p> 9 pts entre 610 et 1010</p>
         <p> 12 pts entre 1010 et 1410</p>
         <p> 15 pts entre 1410 et 1810 </p>
         <p> 18 pts entre 1810 et 2210</p>
