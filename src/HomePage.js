@@ -260,11 +260,7 @@ function HomePage() {
       </div>
       {average && (
         <div className="average-section">
-          <div>
-            <p>La moyenne est : {avgFilters}</p>
-            <p>Laminarité doit être comprise entre {(avgFilters * 0.8).toFixed(2)} et {(avgFilters * 1.2).toFixed(2)}</p>
-            <p>Somme des vitesses d'air : {sums} m³/h</p>
-          </div>
+           <h3>Mes differents filtres</h3>
           <div className="button-group">
             <button onClick={calculateFilter} className="save-button">Enregistrer le filtre</button>
             {sums && <button onClick={DeleteFilter} className="reset-filters-button">Reset des filtres</button>}
@@ -292,28 +288,57 @@ function HomePage() {
             </table>
           </div>
           <div className="saved-air-speeds-section">
-            <h3>Vitesses d'air enregistrées</h3>
-            <table className="numbers-table">
-              <thead>
-                <tr>
-                  {savedAirSpeeds.map((_, index) => (
-                    <th key={index}>Filtre {index + 1}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {savedAirSpeeds[0]?.map((_, speedIndex) => (
-                  <tr key={speedIndex}>
-                    {savedAirSpeeds.map((speeds, filterIndex) => (
-                      <td key={filterIndex}>{speeds[speedIndex]}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+  <h3>Vitesses d'air enregistrées</h3>
+  <table className="numbers-table">
+    <thead>
+      <tr>
+        {savedAirSpeeds.map((_, index) => (
+          <th key={index}>Filtre {index + 1}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {savedAirSpeeds[0]?.map((_, speedIndex) => (
+        <tr key={speedIndex}>
+          {savedAirSpeeds.map((speeds, filterIndex) => {
+            const speed = speeds[speedIndex];
+            const lowerBound = (avgFilters * 0.8).toFixed(2);
+            const upperBound = (avgFilters * 1.2).toFixed(2);
+            const isOutOfLaminarity = speed < lowerBound || speed > upperBound;
+
+            return (
+              <td key={filterIndex} className={isOutOfLaminarity ? 'out-of-laminarity' : ''}>
+                {speed}
+              </td>
+            );
+          })}
+        </tr>
+      ))}
+        <tr>
+        {avgFilter.map((avg, filterIndex) => {
+          const lowerBound = (avgFilters * 0.8).toFixed(2);
+          const upperBound = (avgFilters * 1.2).toFixed(2);
+          const isOutOfLaminarity = avg < lowerBound || avg > upperBound;
+          return (
+            <td key={filterIndex} className={isOutOfLaminarity ? 'out-of-laminarity' : ''}>
+              <strong>{avg}</strong>
+            </td>
+          );
+        })}
+      </tr>
+    </tbody>
+  </table>
+</div>
+
         </div>
       )}
+      <div>
+            <p>La moyenne est : <strong>{avgFilters}</strong></p>
+            <p>Laminarité doit être comprise entre {(avgFilters * 0.8).toFixed(2)} et {(avgFilters * 1.2).toFixed(2)}</p>
+            <p>Somme des vitesses d'air : <strong>{sums} m³/h</strong></p>
+            <p>{(avgFilters * 0.8)}</p>
+            <p>{avgFilters * 1.2}</p>
+          </div>
     </div>
   );
 }
