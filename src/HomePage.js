@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './HomePage.css';
 
 function HomePage() {
+  // États
   const [length, setLength] = useState('');
   const [width, setWidth] = useState('');
   const [diameter, setDiameter] = useState('');
@@ -16,20 +17,18 @@ function HomePage() {
   const [avgFilter, setAvgFilter] = useState([]);
   const [avgFilters, setAvgFilters] = useState(null);
   const [numbersWithRange, setNumbersWithRange] = useState([]);
+  const [savedAirSpeeds, setSavedAirSpeeds] = useState([]);
 
+  // Gérer les changements dans les champs de formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'length') {
-      setLength(value);
-    } else if (name === 'width') {
-      setWidth(value);
-    } else if (name === 'diameter') {
-      setDiameter(value);
-    } else if (name === 'inputValue') {
-      setInputValue(value);
-    }
+    if (name === 'length') setLength(value);
+    else if (name === 'width') setWidth(value);
+    else if (name === 'diameter') setDiameter(value);
+    else if (name === 'inputValue') setInputValue(value);
   };
 
+  // Gérer la soumission du formulaire
   const handleSubmit = (e) => {
     e.preventDefault();
     const newNumbers = inputValue.split('+').map(Number);
@@ -65,6 +64,7 @@ function HomePage() {
     setNumbersWithRange(updatedNumbersWithRange);
   };
 
+  // Supprimer un point de mesure individuel
   const handleDelete = (index) => {
     const updatedNumbers = numbers.filter((_, i) => i !== index);
     setNumbers(updatedNumbers);
@@ -94,29 +94,25 @@ function HomePage() {
     setNumbersWithRange(updatedNumbersWithRange);
   };
 
+  // Supprimer un filtre et les vitesses d'air associées
   const handleDeleteFilter = (index) => {
-    const updatedResults = [...results];
-    updatedResults.splice(index, 1);
+    const updatedResults = results.filter((_, i) => i !== index);
     setResults(updatedResults);
 
-    const updatedAvgFilter = [...avgFilter];
-    updatedAvgFilter.splice(index, 1);
+    const updatedAvgFilter = avgFilter.filter((_, i) => i !== index);
     setAvgFilter(updatedAvgFilter);
 
+    const updatedSavedAirSpeeds = savedAirSpeeds.filter((_, i) => i !== index);
+    setSavedAirSpeeds(updatedSavedAirSpeeds);
+
     const updatedAvgFilters = updatedAvgFilter.reduce((acc, curr) => acc + curr, 0) / updatedAvgFilter.length;
-    setAvgFilters(updatedAvgFilters.toFixed(2));
+    setAvgFilters(updatedAvgFilters ? updatedAvgFilters.toFixed(2) : null);
 
     const updatedSums = updatedResults.reduce((acc, curr) => acc + curr, 0);
     setSums(updatedSums ? updatedSums.toFixed(2) : null);
-
-    if (updatedAvgFilter.length > 0) {
-      const updatedAvgFilters = updatedAvgFilter.reduce((acc, curr) => acc + curr, 0) / updatedAvgFilter.length;
-      setAvgFilters(updatedAvgFilters.toFixed(2));
-    } else {
-      setAvgFilters(null);
-    }
   };
 
+  // Enregistrer un filtre avec ses vitesses d'air
   const calculateFilter = () => {
     if (result) {
       const updatedResults = [...results, parseFloat(result)];
@@ -130,16 +126,22 @@ function HomePage() {
 
       const updatedAvgFilters = updatedAvgFilter.reduce((acc, curr) => acc + curr, 0) / updatedAvgFilter.length;
       setAvgFilters(updatedAvgFilters.toFixed(2));
+
+      // Ajouter les vitesses d'air actuelles au tableau savedAirSpeeds
+      setSavedAirSpeeds([...savedAirSpeeds, numbers]);
     }
   };
 
+  // Réinitialiser tous les filtres
   const DeleteFilter = () => {
     setResults([]);
     setSums(null);
     setAvgFilters(null);
     setAvgFilter([]);
+    setSavedAirSpeeds([]);
   };
 
+  // Réinitialiser les données saisies
   const handleReset = () => {
     setNumbers([]);
     setAverage(null);
@@ -151,7 +153,6 @@ function HomePage() {
     setNumbersWithRange([]);
   };
 
-
   return (
     <div className="container">
       <h2>Calcul de filtre</h2>
@@ -160,7 +161,7 @@ function HomePage() {
           <button onClick={handleReset}>Reset</button>
         </div>
       )}
-        {sum && (
+      {sum && (
         <table className="numbers-table">
           <thead>
             <tr>
@@ -169,7 +170,6 @@ function HomePage() {
               <th>Action</th>
             </tr>
           </thead>
-        
           <tbody>
             {numbersWithRange.map((item, index) => (
               <tr key={index} className="number-item">
@@ -257,7 +257,6 @@ function HomePage() {
             <p>Laminarité doit être comprise entre {(average * 0.8).toFixed(2)} et {(average * 1.2).toFixed(2)}</p>
           </div>
         )}
-           
       </div>
       {average && (
         <div className="average-section">
@@ -291,8 +290,28 @@ function HomePage() {
                 ))}
               </tbody>
             </table>
-         
-          </div>  
+          </div>
+          <div className="saved-air-speeds-section">
+            <h3>Vitesses d'air enregistrées</h3>
+            <table className="numbers-table">
+              <thead>
+                <tr>
+                  {savedAirSpeeds.map((_, index) => (
+                    <th key={index}>Filtre {index + 1}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {savedAirSpeeds[0]?.map((_, speedIndex) => (
+                  <tr key={speedIndex}>
+                    {savedAirSpeeds.map((speeds, filterIndex) => (
+                      <td key={filterIndex}>{speeds[speedIndex]}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
@@ -300,4 +319,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
